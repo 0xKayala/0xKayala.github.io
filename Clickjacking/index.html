@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8"/>
+    <title>Clickjacking Tool | Test | UI Redressing</title>
+    <meta name="description" content="Test and learn Clickjacking. Make clickjacking PoC, take screenshot and share link. You can test HTTPS, HTTP, intranet and internal sites."/>
+    <meta name="keywords" content="Test Clickjacking, Online clickjacking test, Clickjacking tool, What is clickjacking, Fix clickjacking, Clickjacking vulnerability, Exploit clickjacking"/>
+    <meta property="og:site_name" content="Clickjacker"/>
+    <meta property="og:title" content="Clickjacking Tool | Test | UI Redressing"/>
+    <meta property="og:description" content="Test and learn Clickjacking. Make clickjacking PoC, take screenshot and share link. You can test HTTPS, HTTP, intranet and internal sites."/>
+    <meta property="og:image" content="https://clickjacker.io/assets/images/logos/LogoForSharing.png"/>
+    <meta property="og:type" content="website"/>
+    <meta property="og:image:type" content="image/png"/>
+    <meta property="og:image:width" content="300"/>
+    <meta property="og:image:height" content="300"/>
+    <meta property="og:url" content="https://clickjacker.io"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <link rel="icon" href="/favicon.ico"/>
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons"/>
+    <style>
+        body {
+            background-color: black;
+            color: white;
+            font-family: Arial, sans-serif;
+            text-align: center;
+            padding: 20px;
+        }
+        h1 {
+            color: red;
+        }
+        iframe {
+            border: 2px solid red;
+            width: 100%;
+            height: 800px;
+            margin-top: 20px;
+        }
+        .flex-container {
+            display: flex;
+            justify-content: center;
+            margin-top: 20px;
+        }
+        .group {
+            position: relative;
+        }
+        .group input {
+            background: none;
+            color: white;
+            font-size: 18px;
+            padding: 10px;
+            width: 300px;
+            border: none;
+            border-bottom: 2px solid white;
+        }
+        .group input:focus {
+            outline: none;
+        }
+        .pulse-button {
+            background-color: red;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <h1>Clickjacking Test Page</h1>
+    <div class="flex-container">
+        <div class="group">
+            <input id="urlInput" placeholder="Enter URL to test" type="text"/>
+        </div>
+        <button class="pulse-button" onclick="testClickjacking()">Test</button>
+    </div>
+    <iframe id="testIframe" src="about:blank"></iframe>
+
+    <script>
+        function testClickjacking() {
+            var url = document.getElementById('urlInput').value;
+            if (url) {
+                document.getElementById('testIframe').src = url;
+            } else {
+                alert('Please enter a URL to test.');
+            }
+        }
+    </script>
+</body>
+</html>
