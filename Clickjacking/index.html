@@ -8,12 +8,12 @@
     <meta property="og:site_name" content="Clickjacker"/>
     <meta property="og:title" content="Clickjacking Tool | Test | UI Redressing"/>
     <meta property="og:description" content="Test and learn Clickjacking. Make clickjacking PoC, take screenshot and share link. You can test HTTPS, HTTP, intranet and internal sites."/>
-    <meta property="og:image" content="https://clickjacker.io/assets/images/logos/LogoForSharing.png"/>
+    <meta property="og:image" content="https://0xkayala.github.io/Clickjacking/assets/images/logos/LogoForSharing.png"/>
     <meta property="og:type" content="website"/>
     <meta property="og:image:type" content="image/png"/>
     <meta property="og:image:width" content="300"/>
     <meta property="og:image:height" content="300"/>
-    <meta property="og:url" content="https://clickjacker.io"/>
+    <meta property="og:url" content="https://0xkayala.github.io/Clickjacking/"/>
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <link rel="icon" href="/favicon.ico"/>
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
@@ -62,6 +62,17 @@
             border: none;
             cursor: pointer;
         }
+        #results {
+            margin-top: 20px;
+        }
+        .vulnerable {
+            color: red;
+            font-weight: bold;
+        }
+        .safe {
+            color: green;
+            font-weight: bold;
+        }
     </style>
 </head>
 <body>
@@ -73,14 +84,41 @@
         <button class="pulse-button" onclick="testClickjacking()">Test</button>
     </div>
     <iframe id="testIframe" src="about:blank"></iframe>
+    <div id="results"></div>
 
     <script>
-        function testClickjacking() {
+        async function testClickjacking() {
             var url = document.getElementById('urlInput').value;
-            if (url) {
-                document.getElementById('testIframe').src = url;
-            } else {
+            if (!url) {
                 alert('Please enter a URL to test.');
+                return;
+            }
+
+            try {
+                var response = await fetch(url, { method: 'GET', mode: 'no-cors' });
+                var headers = response.headers;
+
+                var xFrameOptions = headers.get('X-Frame-Options');
+                var csp = headers.get('Content-Security-Policy');
+
+                var resultsDiv = document.getElementById('results');
+                resultsDiv.innerHTML = '<h2>Test Results:</h2>';
+
+                if (!xFrameOptions && !csp) {
+                    resultsDiv.innerHTML += '<p class="vulnerable">The site is vulnerable to Clickjacking. Missing headers: X-Frame-Options and Content-Security-Policy (Frame-Ancestors).</p>';
+                } else {
+                    resultsDiv.innerHTML += '<p class="safe">The site has protective headers:</p>';
+                    if (xFrameOptions) {
+                        resultsDiv.innerHTML += '<p class="safe">X-Frame-Options: ' + xFrameOptions + '</p>';
+                    }
+                    if (csp) {
+                        resultsDiv.innerHTML += '<p class="safe">Content-Security-Policy (Frame-Ancestors): ' + csp + '</p>';
+                    }
+                }
+
+                document.getElementById('testIframe').src = url;
+            } catch (error) {
+                alert('Error fetching headers: ' + error);
             }
         }
     </script>
