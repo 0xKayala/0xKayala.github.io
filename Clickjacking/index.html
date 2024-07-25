@@ -32,7 +32,7 @@
         iframe {
             border: 2px solid red;
             width: 80%;
-            height: 350px;
+            height: 300px;
             margin-top: 20px;
         }
         .flex-container {
@@ -61,6 +61,7 @@
             padding: 10px 20px;
             border: none;
             cursor: pointer;
+            margin-left: 10px;
         }
         #results {
             margin-top: 20px;
@@ -107,12 +108,12 @@
                 if (!xFrameOptions && !csp) {
                     resultsDiv.innerHTML += '<p class="vulnerable">The site is vulnerable to Clickjacking. Missing headers: X-Frame-Options and Content-Security-Policy (Frame-Ancestors).</p>';
                 } else {
-                    resultsDiv.innerHTML += '<p class="safe">The site has protective headers:</p>';
+                    resultsDiv.innerHTML += '<p class="safe">The Site is Protected from Clickjacking Attacks:</p>';
                     if (xFrameOptions) {
-                        resultsDiv.innerHTML += '<p class="safe">X-Frame-Options: ' + xFrameOptions + '</p>';
+                        resultsDiv.innerHTML += '<p class="safe">Found X-Frame-Options: ' + xFrameOptions + '</p>';
                     }
                     if (csp) {
-                        resultsDiv.innerHTML += '<p class="safe">Content-Security-Policy (Frame-Ancestors): ' + csp + '</p>';
+                        resultsDiv.innerHTML += '<p class="safe">Found Content-Security-Policy (Frame-Ancestors): ' + csp + '</p>';
                     }
                 }
 
