@@ -1,127 +1,83 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="utf-8"/>
-    <title>Clickjacking Tool | Test | UI Redressing</title>
-    <meta name="description" content="Test and learn Clickjacking. Make clickjacking PoC, take screenshot and share link. You can test HTTPS, HTTP, intranet and internal sites."/>
-    <meta name="keywords" content="Test Clickjacking, Online clickjacking test, Clickjacking tool, What is clickjacking, Fix clickjacking, Clickjacking vulnerability, Exploit clickjacking"/>
-    <meta property="og:site_name" content="Clickjacker"/>
-    <meta property="og:title" content="Clickjacking Tool | Test | UI Redressing"/>
-    <meta property="og:description" content="Test and learn Clickjacking. Make clickjacking PoC, take screenshot and share link. You can test HTTPS, HTTP, intranet and internal sites."/>
-    <meta property="og:image" content="https://0xkayala.github.io/Clickjacking/assets/images/logos/LogoForSharing.png"/>
-    <meta property="og:type" content="website"/>
-    <meta property="og:image:type" content="image/png"/>
-    <meta property="og:image:width" content="300"/>
-    <meta property="og:image:height" content="300"/>
-    <meta property="og:url" content="https://0xkayala.github.io/Clickjacking"/>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-    <link rel="icon" href="/favicon.ico"/>
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
-    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons"/>
-    <style>
-        body {
-            background-color: black;
-            color: white;
-            font-family: Arial, sans-serif;
-            text-align: center;
-            padding: 20px;
-        }
-        h1 {
-            color: red;
-        }
-        iframe {
-            border: 2px solid red;
-            width: 80%;
-            height: 300px;
-            margin-top: 20px;
-        }
-        .flex-container {
-            display: flex;
-            justify-content: center;
-            margin-top: 20px;
-        }
-        .group {
-            position: relative;
-        }
-        .group input {
-            background: none;
-            color: white;
-            font-size: 18px;
-            padding: 10px;
-            width: 300px;
-            border: none;
-            border-bottom: 2px solid white;
-        }
-        .group input:focus {
-            outline: none;
-        }
-        .pulse-button {
-            background-color: red;
-            color: white;
-            padding: 10px 20px;
-            border: none;
-            cursor: pointer;
-            margin-left: 10px;
-        }
-        #results {
-            margin-top: 20px;
-        }
-        .vulnerable {
-            color: red;
-            font-weight: bold;
-        }
-        .safe {
-            color: green;
-            font-weight: bold;
-        }
-    </style>
+  <meta charset="UTF-8" />
+  <title>Clickjacking Tester | UI Redressing Security Tool</title>
+
+  <meta name="description" content="Test websites for missing anti-clickjacking headers like X-Frame-Options and CSP frame-ancestors." />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <!-- Security Headers (for YOUR site) -->
+  <meta http-equiv="Content-Security-Policy"
+        content="default-src 'self'; frame-src *; style-src 'self' 'unsafe-inline'; script-src 'self';">
+
+  <!-- Favicon -->
+  <link rel="icon" type="image/svg+xml" href="assets/cookie-shield.svg" />
+  <link rel="apple-touch-icon" href="assets/cookie-shield.svg">
+
+  <!-- Styles -->
+  <link rel="stylesheet" href="style.css" />
 </head>
+
 <body>
-    <h1>Clickjacking Test Page</h1>
-    <div class="flex-container">
-        <div class="group">
-            <input id="urlInput" placeholder="Enter URL to test" type="text"/>
-        </div>
-        <button class="pulse-button" onclick="testClickjacking()">Test</button>
+
+<header class="topbar">
+  <div class="container">
+    <h1>🍪 Clickjacking Tester</h1>
+    <span class="tagline">Detect UI Redressing & Missing Security Headers</span>
+  </div>
+</header>
+
+<main class="container">
+
+  <section class="tester">
+    <div class="input-group">
+      <select id="protocol">
+        <option value="https://">https://</option>
+        <option value="http://">http://</option>
+      </select>
+
+      <input
+        type="text"
+        id="target"
+        placeholder="example.com"
+        spellcheck="false"
+        autocomplete="off"
+      />
+
+      <button id="testBtn">Test</button>
     </div>
-    <iframe id="testIframe" src="about:blank"></iframe>
-    <div id="results"></div>
+  </section>
 
-    <script>
-        async function testClickjacking() {
-            var url = document.getElementById('urlInput').value;
-            if (!url) {
-                alert('Please enter a URL to test.');
-                return;
-            }
+  <section class="results">
+    <div class="iframe-box">
+      <iframe
+        id="testFrame"
+        sandbox="allow-scripts allow-forms"
+        referrerpolicy="no-referrer"
+        title="Clickjacking Test Frame">
+      </iframe>
+    </div>
 
-            try {
-                var response = await fetch(url, { method: 'GET', mode: 'no-cors' });
-                var headers = response.headers;
+    <div class="report">
+      <h3>Test Results</h3>
+      <table>
+        <tr><td>Target URL</td><td id="r-url">-</td></tr>
+        <tr><td>X-Frame-Options</td><td id="r-xfo">-</td></tr>
+        <tr><td>CSP frame-ancestors</td><td id="r-csp">-</td></tr>
+        <tr><td>Status</td><td id="r-status">-</td></tr>
+      </table>
+    </div>
+  </section>
 
-                var xFrameOptions = headers.get('X-Frame-Options');
-                var csp = headers.get('Content-Security-Policy');
+</main>
 
-                var resultsDiv = document.getElementById('results');
-                resultsDiv.innerHTML = '<h2>Test Results:</h2>';
+<footer>
+  <p>
+    © 2026 | 0xKayala | Educational & Ethical Use Only
+  </p>
+</footer>
 
-                if (!xFrameOptions && !csp) {
-                    resultsDiv.innerHTML += '<p class="vulnerable">The site is vulnerable to Clickjacking. Missing headers: X-Frame-Options and Content-Security-Policy (Frame-Ancestors).</p>';
-                } else {
-                    resultsDiv.innerHTML += '<p class="safe">The Site is Protected from Clickjacking Attacks:</p>';
-                    if (xFrameOptions) {
-                        resultsDiv.innerHTML += '<p class="safe">Found X-Frame-Options: ' + xFrameOptions + '</p>';
-                    }
-                    if (csp) {
-                        resultsDiv.innerHTML += '<p class="safe">Found Content-Security-Policy (Frame-Ancestors): ' + csp + '</p>';
-                    }
-                }
-
-                document.getElementById('testIframe').src = url;
-            } catch (error) {
-                alert('Error fetching headers: ' + error);
-            }
-        }
-    </script>
+<script src="script.js"></script>
 </body>
 </html>
