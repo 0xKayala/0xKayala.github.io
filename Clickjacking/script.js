@@ -1,8 +1,10 @@
-const btn = document.getElementById("testBtn");
+const form = document.getElementById("scanForm");
 const frame = document.getElementById("testFrame");
 const API_URL = "https://api.0xkayala.com/api/scan";
 
-btn.addEventListener("click", async () => {
+form.addEventListener("submit", async (e) => {
+  e.preventDefault(); // ⛔ prevent page reload
+
   const protocol = document.getElementById("protocol").value;
   const target = document.getElementById("target").value.trim();
 
@@ -14,6 +16,7 @@ btn.addEventListener("click", async () => {
   document.getElementById("r-status").textContent = "Testing…";
   document.getElementById("r-xfo").textContent = "-";
   document.getElementById("r-csp").textContent = "-";
+  document.getElementById("rawHeaders").textContent = "-";
 
   const verdictBox = document.getElementById("verdict");
   verdictBox.className = "verdict hidden";
@@ -49,9 +52,7 @@ btn.addEventListener("click", async () => {
       verdictBox.className = "verdict safe";
     }
 
-    /* --------------------
-       PROFESSIONAL RAW HEADER FORMAT
-    -------------------- */
+    /* ---- RAW HEADERS (Professional Format) ---- */
     const sortedHeaders = Object.keys(data.raw_headers)
       .sort()
       .reduce((obj, key) => {
