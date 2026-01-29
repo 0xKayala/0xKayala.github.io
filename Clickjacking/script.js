@@ -1,7 +1,7 @@
 const btn = document.getElementById("testBtn");
 const frame = document.getElementById("testFrame");
 
-const API_URL = "https://api.0xkayala.com";
+const API_URL = "https://api.0xkayala.com/api/scan";
 
 btn.addEventListener("click", async () => {
   const protocol = document.getElementById("protocol").value;
@@ -14,13 +14,22 @@ btn.addEventListener("click", async () => {
 
   const url = protocol + target;
 
-  // UI pre-state
+  /* --------------------
+     UI PRE-STATE
+  -------------------- */
   document.getElementById("r-url").textContent = url;
   document.getElementById("r-status").textContent = "Testing…";
   document.getElementById("r-xfo").textContent = "-";
   document.getElementById("r-csp").textContent = "-";
+  document.getElementById("rawHeaders").textContent = "-";
 
-  // Load iframe (visual PoC)
+  const verdictBox = document.getElementById("verdict");
+  verdictBox.className = "verdict hidden";
+  verdictBox.textContent = "";
+
+  /* --------------------
+     LOAD IFRAME (PoC)
+  -------------------- */
   frame.src = url;
 
   try {
@@ -38,31 +47,55 @@ btn.addEventListener("click", async () => {
 
     const data = await response.json();
 
-    // X-Frame-Options
+    /* --------------------
+       X-Frame-Options
+    -------------------- */
     document.getElementById("r-xfo").textContent =
-      data.x_frame_options
-        ? data.x_frame_options
-        : "❌ Missing";
+      data.x_frame_options ? data.x_frame_options : "❌ Missing";
 
-    // CSP frame-ancestors
+    /* --------------------
+       CSP frame-ancestors
+    -------------------- */
     document.getElementById("r-csp").textContent =
-      data.csp && data.csp.toLowerCase().includes("frame-ancestors")
-        ? "✅ Present"
-        : "❌ Missing";
+      data.frame_ancestors ? data.frame_ancestors : "❌ Missing";
 
-    // Final status
+    /* --------------------
+       STATUS + VERDICT
+    -------------------- */
     const statusEl = document.getElementById("r-status");
 
     if (data.vulnerable) {
-      statusEl.textContent = "❌ VULNERABLE TO CLICKJACKING";
+      statusEl.textContent = "VULNERABLE";
       statusEl.style.color = "red";
+
+      verdictBox.textContent =
+        "❌ This site is vulnerable to Clickjacking (UI Redressing) attack";
+      verdictBox.className = "verdict vuln";
     } else {
-      statusEl.textContent = "✅ NOT VULNERABLE";
+      statusEl.textContent = "SAFE";
       statusEl.style.color = "green";
+
+      verdictBox.textContent =
+        "✅ This site is protected against Clickjacking attacks";
+      verdictBox.className = "verdict safe";
     }
+
+    /* --------------------
+       RAW HTTP HEADERS
+    -------------------- */
+    document.getElementById("rawHeaders").textContent =
+      JSON.stringify(data.raw_headers, null, 2);
 
   } catch (err) {
     document.getElementById("r-status").textContent =
       "Scan failed (API unreachable)";
+    document.getElementById("r-status").style.color = "orange";
+
+    const verdictBox = document.getElementById("verdict");
+    verdictBox.textContent =
+      "⚠️ Scan could not be completed. The target may be blocking requests.";
+    verdictBox.className = "verdict warn";
+
+    console.error(err);
   }
 });
