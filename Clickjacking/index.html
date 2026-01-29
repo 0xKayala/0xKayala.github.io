@@ -32,17 +32,23 @@
 
 <main class="container">
 
+  <!-- INPUT -->
   <section class="tester">
-    <div class="input-group">
-      <select id="protocol">
-        <option value="https://">https://</option>
-        <option value="http://">http://</option>
-      </select>
-      <input id="target" placeholder="example.com" />
-      <button id="testBtn">Test</button>
-    </div>
+    <form id="scanForm">
+      <div class="input-group">
+        <select id="protocol">
+          <option value="https://">https://</option>
+          <option value="http://">http://</option>
+        </select>
+
+        <input id="target" placeholder="example.com" />
+
+        <button id="testBtn" type="submit">Test</button>
+      </div>
+    </form>
   </section>
 
+  <!-- RESULTS -->
   <section class="results">
 
     <div class="iframe-box">
@@ -63,6 +69,7 @@
 
   </section>
 
+  <!-- RAW HEADERS -->
   <section class="raw-section">
     <details>
       <summary>Raw HTTP Headers</summary>
