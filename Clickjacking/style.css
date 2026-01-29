@@ -106,3 +106,69 @@ footer {
   font-size: 0.85rem;
   opacity: 0.7;
 }
+
+/* ==================================================
+   VERDICT ALERT STYLES (Clickjacking Result)
+   ================================================== */
+
+.verdict {
+  margin-top: 1rem;
+  padding: 1rem;
+  border-radius: 8px;
+  font-weight: 700;
+  text-align: center;
+  line-height: 1.4;
+}
+
+/* SAFE (Green) */
+.verdict.safe {
+  background: #ecfdf5;
+  border: 2px solid #10b981;
+  color: #065f46;
+}
+
+/* VULNERABLE (Red) */
+.verdict.vuln {
+  background: #fef2f2;
+  border: 2px solid #ef4444;
+  color: #991b1b;
+}
+
+/* WARNING / ERROR (Yellow) */
+.verdict.warn {
+  background: #fffbeb;
+  border: 2px solid #f59e0b;
+  color: #92400e;
+}
+
+/* Hide verdict before scan */
+.hidden {
+  display: none;
+}
+
+/* ==================================================
+   RAW HTTP HEADERS SECTION
+   ================================================== */
+
+.raw-section {
+  margin-top: 2rem;
+}
+
+.raw-section details {
+  background: #ffffff;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+}
+
+.raw-section summary {
+  cursor: pointer;
+  padding: 0.7rem;
+  font-weight: 600;
+}
+
+.raw-section pre {
+  padding: 0.9rem;
+  font-size: 0.85rem;
+  background: #f8fafc;
+  overflow-x: auto;
+}
