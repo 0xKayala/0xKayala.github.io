@@ -9,7 +9,13 @@
 
   <!-- Security Headers (for YOUR site) -->
   <meta http-equiv="Content-Security-Policy"
-        content="default-src 'self'; frame-src *; style-src 'self' 'unsafe-inline'; script-src 'self';">
+      content="
+        default-src 'self';
+        script-src 'self';
+        style-src 'self' 'unsafe-inline';
+        frame-src *;
+        connect-src 'self' https://api.0xkayala.com;
+      ">
 
   <!-- Favicon -->
   <link rel="icon" type="image/svg+xml" href="assets/cookie-shield.svg" />
