@@ -4,18 +4,19 @@
   <meta charset="UTF-8" />
   <title>Clickjacking Tester | UI Redressing Security Tool</title>
 
-  <meta name="description" content="Test websites for missing anti-clickjacking headers like X-Frame-Options and CSP frame-ancestors." />
+  <meta name="description"
+        content="Test websites for missing anti-clickjacking headers like X-Frame-Options and CSP frame-ancestors." />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
   <!-- Security Headers (for YOUR site) -->
   <meta http-equiv="Content-Security-Policy"
-      content="
-        default-src 'self';
-        script-src 'self';
-        style-src 'self' 'unsafe-inline';
-        frame-src *;
-        connect-src 'self' https://api.0xkayala.com;
-      ">
+        content="
+          default-src 'self';
+          script-src 'self';
+          style-src 'self' 'unsafe-inline';
+          frame-src *;
+          connect-src 'self' https://api.0xkayala.com;
+        ">
 
   <!-- Favicon -->
   <link rel="icon" type="image/svg+xml" href="assets/cookie-shield.svg" />
@@ -30,12 +31,15 @@
 <header class="topbar">
   <div class="container">
     <h1>🍪 Clickjacking Tester</h1>
-    <span class="tagline">Detect UI Redressing & Missing Anti-Clickjacking Headers</span>
+    <span class="tagline">
+      Detect UI Redressing & Missing Anti-Clickjacking Headers
+    </span>
   </div>
 </header>
 
 <main class="container">
 
+  <!-- INPUT -->
   <section class="tester">
     <div class="input-group">
       <select id="protocol">
@@ -55,7 +59,10 @@
     </div>
   </section>
 
+  <!-- RESULTS -->
   <section class="results">
+
+    <!-- IFRAME -->
     <div class="iframe-box">
       <iframe
         id="testFrame"
@@ -65,23 +72,47 @@
       </iframe>
     </div>
 
+    <!-- REPORT -->
     <div class="report">
       <h3>Test Results</h3>
+
       <table>
-        <tr><td>Target URL</td><td id="r-url">-</td></tr>
-        <tr><td>X-Frame-Options</td><td id="r-xfo">-</td></tr>
-        <tr><td>CSP frame-ancestors</td><td id="r-csp">-</td></tr>
-        <tr><td>Status</td><td id="r-status">-</td></tr>
+        <tr>
+          <td>Target URL</td>
+          <td id="r-url">-</td>
+        </tr>
+        <tr>
+          <td>X-Frame-Options</td>
+          <td id="r-xfo">-</td>
+        </tr>
+        <tr>
+          <td>CSP frame-ancestors</td>
+          <td id="r-csp">-</td>
+        </tr>
+        <tr>
+          <td>Status</td>
+          <td id="r-status">-</td>
+        </tr>
       </table>
+
+      <!-- VERDICT BANNER -->
+      <div id="verdict" class="verdict hidden"></div>
     </div>
+
+  </section>
+
+  <!-- RAW HEADERS -->
+  <section class="raw-section">
+    <details>
+      <summary>Raw HTTP Headers</summary>
+      <pre id="rawHeaders">-</pre>
+    </details>
   </section>
 
 </main>
 
 <footer>
-  <p>
-    © 2026 | 0xKayala | Educational & Ethical Use Only
-  </p>
+  <p>© 2026 | 0xKayala | Educational & Ethical Use Only</p>
 </footer>
 
 <script src="script.js"></script>
