@@ -3,7 +3,20 @@
   --accent: #f59e0b;
   --bg: #f9fafb;
   --border: #e5e7eb;
+
+  --safe: #16a34a;
+  --safe-bg: #ecfdf5;
+
+  --vuln: #dc2626;
+  --vuln-bg: #fef2f2;
+
+  --warn: #f59e0b;
+  --warn-bg: #fffbeb;
 }
+
+/* ================================
+   GLOBAL
+================================ */
 
 * {
   box-sizing: border-box;
@@ -15,6 +28,10 @@ body {
   background: var(--bg);
   color: var(--primary);
 }
+
+/* ================================
+   HEADER
+================================ */
 
 .topbar {
   background: #111827;
@@ -29,8 +46,12 @@ body {
 
 .tagline {
   font-size: 0.9rem;
-  opacity: 0.8;
+  opacity: 0.85;
 }
+
+/* ================================
+   INPUT
+================================ */
 
 .tester {
   margin: 2rem 0;
@@ -65,6 +86,10 @@ button:hover {
   filter: brightness(0.95);
 }
 
+/* ================================
+   RESULTS LAYOUT
+================================ */
+
 .results {
   display: flex;
   gap: 1.5rem;
@@ -90,65 +115,67 @@ iframe {
   padding: 1rem;
 }
 
+/* ================================
+   TABLE
+================================ */
+
 table {
   width: 100%;
   border-collapse: collapse;
 }
 
 td {
-  padding: 0.4rem 0;
+  padding: 0.45rem 0;
   border-bottom: 1px solid var(--border);
 }
 
-footer {
-  text-align: center;
-  padding: 1.5rem;
-  font-size: 0.85rem;
-  opacity: 0.7;
+td:first-child {
+  font-weight: 600;
+  width: 45%;
 }
 
-/* ==================================================
-   VERDICT ALERT STYLES (Clickjacking Result)
-   ================================================== */
+/* ================================
+   VERDICT ALERTS
+================================ */
 
 .verdict {
   margin-top: 1rem;
-  padding: 1rem;
+  padding: 1rem 1.1rem;
   border-radius: 8px;
   font-weight: 700;
   text-align: center;
   line-height: 1.4;
+  font-size: 0.95rem;
 }
 
-/* SAFE (Green) */
+/* SAFE */
 .verdict.safe {
-  background: #ecfdf5;
-  border: 2px solid #10b981;
+  background: var(--safe-bg);
+  border: 2px solid var(--safe);
   color: #065f46;
 }
 
-/* VULNERABLE (Red) */
+/* VULNERABLE */
 .verdict.vuln {
-  background: #fef2f2;
-  border: 2px solid #ef4444;
-  color: #991b1b;
+  background: var(--vuln-bg);
+  border: 2px solid var(--vuln);
+  color: #7f1d1d;
 }
 
-/* WARNING / ERROR (Yellow) */
+/* WARNING */
 .verdict.warn {
-  background: #fffbeb;
-  border: 2px solid #f59e0b;
+  background: var(--warn-bg);
+  border: 2px solid var(--warn);
   color: #92400e;
 }
 
-/* Hide verdict before scan */
 .hidden {
   display: none;
 }
 
-/* ==================================================
-   RAW HTTP HEADERS SECTION
-   ================================================== */
+/* ================================
+   RAW HTTP HEADERS
+================================ */
 
 .raw-section {
   margin-top: 2rem;
@@ -157,18 +184,41 @@ footer {
 .raw-section details {
   background: #ffffff;
   border: 1px solid var(--border);
-  border-radius: 6px;
+  border-radius: 8px;
+  overflow: hidden;
 }
 
 .raw-section summary {
   cursor: pointer;
-  padding: 0.7rem;
+  padding: 0.75rem 1rem;
   font-weight: 600;
+  background: #f1f5f9;
+  user-select: none;
+}
+
+.raw-section summary:hover {
+  background: #e5e7eb;
 }
 
 .raw-section pre {
-  padding: 0.9rem;
-  font-size: 0.85rem;
-  background: #f8fafc;
+  margin: 0;
+  padding: 1rem;
+  font-size: 0.82rem;
+  line-height: 1.5;
+  background: #0f172a;
+  color: #e5e7eb;
+  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
   overflow-x: auto;
+  white-space: pre;
+}
+
+/* ================================
+   FOOTER
+================================ */
+
+footer {
+  text-align: center;
+  padding: 1.5rem;
+  font-size: 0.85rem;
+  opacity: 0.7;
 }
